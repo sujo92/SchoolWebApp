@@ -21480,3 +21480,68 @@ h4.inner-text-title {
     height: 80px;
     position: relative;
 }
+
+@media (max-width: 991px) {
+    .main-content {
+        padding-top: 50px;
+	padding-bottom: 100px;
+    }
+}
+
+.section__content {
+    position: relative;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.section__content--w1830 {
+    max-width: 1830px;
+}
+
+.section__content--p30 {
+    padding: 0 30px;
+}
+
+@media (max-width: 991px) {
+    .section__content--p30 {
+        padding: 0;
+    }
+}
+
+.section__content--p35 {
+    padding: 0 35px;
+}
+
+.heading-21921 {
+  position: relative;
+  padding: 0;
+  line-height: 1;
+  font-weight: 900 !important;
+  text-align: left;
+}
+
+.site-section {
+  padding: 3rem 0;
+}
+
+label {
+  font-size: 1rem;
+  text-align: left;
+  display: flex;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 0px;
+  margin-left:  0px;
+}
+
+.table-responsive-md {
+  margin: 50px;
+}
+
+.control-label:after {
+   content:"*";
+   color:red;
+}
