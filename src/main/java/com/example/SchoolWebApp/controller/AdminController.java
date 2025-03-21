@@ -1,7 +1,9 @@
 package com.example.SchoolWebApp.controller;
 
+import com.example.SchoolWebApp.model.Courses;
 import com.example.SchoolWebApp.model.EClass;
 import com.example.SchoolWebApp.model.Person;
+import com.example.SchoolWebApp.repository.CoursesRepository;
 import com.example.SchoolWebApp.repository.EClassRepository;
 import com.example.SchoolWebApp.repository.PersonRepository;
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +28,9 @@ public class AdminController {
 
     @Autowired
     PersonRepository personRepository;
+
+    @Autowired
+    CoursesRepository coursesRepository;
 
     @RequestMapping("/displayClasses")
     public ModelAndView displayClasses(Model model){
@@ -96,6 +101,66 @@ public class AdminController {
         EClass eClassSaved = eClassRepository.save(eClass);
         session.setAttribute("eClass", eClassSaved);
         ModelAndView modelAndView = new ModelAndView("redirect:/admin/displayStudents?classId="+eClassSaved.getClassId());
+        return modelAndView;
+    }
+
+    @GetMapping("/displayCourses")
+    public ModelAndView displayCourses(Model model){
+        List<Courses> courses = coursesRepository.findAll();
+        ModelAndView modelAndView = new ModelAndView("courses_secure.html");
+        modelAndView.addObject("courses", courses);
+        modelAndView.addObject("course", new Courses());
+        return modelAndView;
+    }
+
+    @PostMapping("/addNewCourse")
+    public ModelAndView addCourse(Model model, @ModelAttribute("course") Courses course){
+        coursesRepository.save(course);
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin/displayCourses");
+        return modelAndView;
+    }
+
+    @GetMapping("/viewStudents")
+    public ModelAndView viewStudents(Model model,@RequestParam int id, HttpSession session, @RequestParam(value="error", required = false) String error){
+        String errorMessage;
+        Optional<Courses> courses = coursesRepository.findById(id);
+        ModelAndView modelAndView = new ModelAndView("courses_student.html");
+        modelAndView.addObject("courses", courses.get());
+        modelAndView.addObject("person",new Person());
+        session.setAttribute("courses", courses.get());
+        if(error != null){
+            errorMessage="Invalid student name!";
+            modelAndView.addObject("errorMessage", errorMessage);
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("/addStudentToCourse")
+    public  ModelAndView addStudentToCourse(Model model, @ModelAttribute("person") Person person, HttpSession session){
+        ModelAndView modelAndView = new ModelAndView();
+        Courses courses = (Courses) session.getAttribute("courses");
+        Person person1 = personRepository.readByEmail(person.getEmail());
+        if(person1 == null || !(person1.getPersonId()>0)){
+            modelAndView.setViewName("redirect:/admin/viewStudents?id="+courses.getCourseId()+"&error=true");
+            return modelAndView;
+        }
+        person1.getCourses().add(courses);
+        courses.getPersons().add(person1);
+        personRepository.save(person1);
+        session.setAttribute("courses",courses);
+        modelAndView.setViewName("redirect:/admin/viewStudents?id="+courses.getCourseId());
+        return modelAndView;
+    }
+
+    @GetMapping("/deleteStudentFromCourse")
+    public ModelAndView deleteStudentFromCourse(Model model, @RequestParam int personId, HttpSession session){
+        Courses courses = (Courses) session.getAttribute("courses");
+        Optional<Person> person = personRepository.findById(personId);
+        person.get().getCourses().remove(courses);
+        courses.getPersons().remove(person);
+        personRepository.save(person.get());
+        session.setAttribute("courses",courses);
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin/viewStudents?id="+courses.getCourseId());
         return modelAndView;
     }
 }
