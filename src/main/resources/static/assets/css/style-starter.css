@@ -1,15 +1,5 @@
 @charset "UTF-8";
 
-/*--
-Author: W3layouts
-Author URL: http://w3layouts.com
---*/
-/*!
- * Bootstrap v5.0.1 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -724,7 +714,6 @@ progress {
   width: 100%;
   max-width: 100%;
   padding-right: calc(var(--bs-gutter-x) / 2);
-  padding-left: calc(var(--bs-gutter-x) / 2);
   margin-top: var(--bs-gutter-y);
 }
 
@@ -2009,7 +1998,7 @@ progress {
 .table {
   --bs-table-bg: transparent;
   --bs-table-accent-bg: transparent;
-  --bs-table-striped-color: #212529;
+  --bs-table-striped-color: var(--heading-color);
   --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
   --bs-table-active-color: #212529;
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
@@ -2017,7 +2006,7 @@ progress {
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
   width: 100%;
   margin-bottom: 1rem;
-  color: #212529;
+  color: var(--heading-color);
   vertical-align: top;
   border-color: #dee2e6;
 }
@@ -21155,6 +21144,7 @@ h4.inner-text-title {
 }
 
 /* //contact section */
+
 /* login section */
 .login-block input,
 .login-block textarea {
@@ -21307,7 +21297,6 @@ h4.inner-text-title {
 }
 
 /* //team block */
-
 
 /* ----- Overview ----- */
 
@@ -21574,4 +21563,66 @@ button.close {
     color: #000;
     text-shadow: 0 1px 0 #fff;
     opacity: .5;
+}
+
+table.dataTable > thead > tr > th:not(.sorting_disabled),
+table.dataTable > thead > tr > td:not(.sorting_disabled) {
+  padding-right: 30px;
+}
+table.dataTable > thead .sorting,
+table.dataTable > thead .sorting_asc,
+table.dataTable > thead .sorting_desc,
+table.dataTable > thead .sorting_asc_disabled,
+table.dataTable > thead .sorting_desc_disabled {
+  cursor: pointer;
+  position: relative;
+}
+table.dataTable > thead .sorting:before, table.dataTable > thead .sorting:after,
+table.dataTable > thead .sorting_asc:before,
+table.dataTable > thead .sorting_asc:after,
+table.dataTable > thead .sorting_desc:before,
+table.dataTable > thead .sorting_desc:after,
+table.dataTable > thead .sorting_asc_disabled:before,
+table.dataTable > thead .sorting_asc_disabled:after,
+table.dataTable > thead .sorting_desc_disabled:before,
+table.dataTable > thead .sorting_desc_disabled:after {
+  position: absolute;
+  bottom: 0.5em;
+  display: block;
+  opacity: 0.3;
+}
+table.dataTable > thead .sorting:before,
+table.dataTable > thead .sorting_asc:before,
+table.dataTable > thead .sorting_desc:before,
+table.dataTable > thead .sorting_asc_disabled:before,
+table.dataTable > thead .sorting_desc_disabled:before {
+  right: 1em;
+  content: "↑";
+}
+table.dataTable > thead .sorting:after,
+table.dataTable > thead .sorting_asc:after,
+table.dataTable > thead .sorting_desc:after,
+table.dataTable > thead .sorting_asc_disabled:after,
+table.dataTable > thead .sorting_desc_disabled:after {
+  right: 0.5em;
+  content: "↓";
+}
+table.dataTable > thead .sorting_asc:before,
+table.dataTable > thead .sorting_desc:after {
+  opacity: 1;
+}
+table.dataTable > thead .sorting_asc_disabled:before,
+table.dataTable > thead .sorting_desc_disabled:after {
+  opacity: 0;
+}
+
+th > a {
+  color: #fff;
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+th > a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
 }
