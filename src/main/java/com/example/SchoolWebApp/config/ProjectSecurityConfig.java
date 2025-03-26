@@ -14,11 +14,12 @@ public class ProjectSecurityConfig {
     //permit all requests
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg").ignoringRequestMatchers("/public/**"))
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg").ignoringRequestMatchers("/public/**").ignoringRequestMatchers("/api/**"))
              .authorizeHttpRequests((requests) -> requests
                      .requestMatchers("dashboard").authenticated()
                      .requestMatchers("/displayMessages/**").hasRole("ADMIN")
                      .requestMatchers("/admin/**").hasRole("ADMIN")
+                     .requestMatchers("/api/**").authenticated()
                      .requestMatchers("/closeMsg/**").hasRole("ADMIN")
                      .requestMatchers("/student/**").hasRole("STUDENT")
                      .requestMatchers("/displayProfile").authenticated()
